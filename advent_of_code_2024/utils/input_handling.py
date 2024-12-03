@@ -11,9 +11,15 @@ def parse_args():
     return args
 
 
-def read_side_by_side_list_format(f):
+def read_regular_input(f, dtype=str):
     with open(f, "r") as input_file:
-        data = [line.rstrip("\n").split() for line in input_file]
+        data = [list(map(dtype, line.rstrip("\n").split())) for line in input_file]
+    return data
+
+
+def read_side_by_side_list_format(f, dtype=str):
+    
+    data = read_regular_input(f, dtype)
 
     list1 = []
     list2 = []
