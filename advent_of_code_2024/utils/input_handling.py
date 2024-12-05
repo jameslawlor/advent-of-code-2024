@@ -10,6 +10,8 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+def read_file(f):
+    return open(f, "r").readlines()
 
 def read_regular_input(f, dtype=str):
     with open(f, "r") as input_file:
