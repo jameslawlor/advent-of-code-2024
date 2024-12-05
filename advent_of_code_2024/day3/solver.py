@@ -1,33 +1,46 @@
 import re
 import math
 
+DO_SUBSTR = 'do()'
+DONT_SUBSTR = 'don\'t()'
 
 def find_valid_substrings(s, match_str=r'mul\(\d+,\d+\)'):
     return re.findall(match_str, s)
 
-
-def instruction_compute(instruction):
-
-    score = 0
-
-    valid_muls = find_valid_substrings(instruction)
-    
+def find_and_multiply_valid_muls_in_string(input_string):
+    string_score = 0
+    valid_muls = find_valid_substrings(input_string)
     for m in valid_muls:
         found_ints = find_valid_substrings(m, match_str=r'\d+')
-        score += math.prod(map(int, found_ints))
+        string_score += math.prod(map(int, found_ints))
+    return string_score
 
-    return score
+def instruction_compute(instruction, use_do_dont_rule=False):
 
-def solve_part_1(input, ):
+    if not use_do_dont_rule:
+        instruction_score = find_and_multiply_valid_muls_in_string(instruction)
+    else:
+        instruction_score=0
+        padded_instruction = DO_SUBSTR+instruction.strip("\n")+DONT_SUBSTR
+        valid_subs = find_valid_substrings(
+            padded_instruction, 
+            match_str=r"mul\((\d+),(\d+)\)|(do\(\))|(don't\(\))"
+            )
+        counting_active = False
+        for (i, j, do, dont) in valid_subs:
+            if do:
+                counting_active = True
+            elif dont:
+                counting_active = False
+            else:
+                if counting_active:
+                    instruction_score += int(i)*int(j)
+    return instruction_score
+
+def solve(input, use_do_dont_rule):
 
     total = 0
-    for instruction in input:
-        score = instruction_compute(instruction)
-        total+=score
+    score = instruction_compute(input, use_do_dont_rule)
+    total+=score
 
     return total
-
-
-def solve_part_2(input,):
-
-    return

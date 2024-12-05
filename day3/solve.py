@@ -3,17 +3,17 @@ from advent_of_code_2024.utils.input_handling import (
     parse_args,
 )
 from advent_of_code_2024.day3.solver import (
-    solve_part_1,
-    solve_part_2,
+    solve,
 )
 
 def main():
     args = parse_args()
-    input = read_file(args.input_file)
+    input = open(args.input_file,'r').read()
     if args.part == 1:
-        output = solve_part_1(input)
+        use_do_dont_rule=False
     if args.part == 2:
-        output = solve_part_2(input)
+        use_do_dont_rule=True
+    output = solve(input, use_do_dont_rule)
     print(f"Output: {output}")
     return output
 
