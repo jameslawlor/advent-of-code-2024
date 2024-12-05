@@ -1,5 +1,4 @@
 from advent_of_code_2024.utils.input_handling import (
-    read_file,
     parse_args,
 )
 from advent_of_code_2024.day3.solver import (
